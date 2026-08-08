@@ -24,7 +24,7 @@ const GET_ACTION_ABI = parseAbi([
 ]);
 
 const DECLARE_ABI = parseAbi([
-  "function declareAction(address token, address asset, uint256 recordBlock, uint256 totalAmount, bytes32 holderSetHash, uint32 totalHolders)",
+  "function declareAction(address token, address asset, uint256 recordBlock, uint256 totalAmount, bytes32 holderSetHash, uint32 totalHolders, uint64 redirectAfter)",
 ]);
 
 export async function actionRoutes(app: FastifyInstance) {
@@ -182,6 +182,10 @@ export async function actionRoutes(app: FastifyInstance) {
           prepared.totalAmount,
           prepared.holderSetHash as `0x${string}`,
           prepared.totalHolders,
+          // redirectAfter: not a feature this project implements — the CAM contract itself
+          // reverts with RedirectNotSupported for any nonzero value, so 0 is the only valid
+          // argument here, not a placeholder standing in for a missing capability.
+          0n,
         ],
       }),
       to: CONTRACTS.cam,
