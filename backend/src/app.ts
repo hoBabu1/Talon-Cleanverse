@@ -17,6 +17,7 @@ import { env } from "./lib/env.js";
 import { cleanverse } from "./lib/cleanverse.js";
 import { reconcileCapTable, serializeReconciliation } from "./lib/reconcile.js";
 import { holderRoutes } from "./routes/holders.js";
+import { onboardRoutes } from "./routes/onboard.js";
 import { actionRoutes } from "./routes/actions.js";
 import { escrowRoutes } from "./routes/escrow.js";
 import { auditRoutes } from "./routes/audit.js";
@@ -85,6 +86,7 @@ export async function buildApp(opts: BuildAppOptions = {}): Promise<FastifyInsta
   app.get("/debug/reconcile", async () => serializeReconciliation(await reconcileCapTable()));
 
   await app.register(holderRoutes);
+  await app.register(onboardRoutes);
   await app.register(actionRoutes);
   await app.register(escrowRoutes);
   await app.register(auditRoutes);
